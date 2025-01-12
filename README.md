@@ -4,7 +4,7 @@ Welcome to the CSS Animations Lab repository! This project showcases various com
 
 ## Project Description
 
-This repository contains examples of basic day to day use CSS animations. The aim of this project is to provide a resource for learning and experimenting with CSS animations. Also, you can simple copy paste the animations code and use in your codebase.
+This repository contains examples of basic day to day use CSS animations. The aim of this project is to provide a resource for learning and experimenting with CSS animations. Also, you can simple copy paste the animations code and use in your codebase. This project is built using React, tailwind css.
 
 ## Features
 
