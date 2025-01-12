@@ -1,0 +1,62 @@
+/* Animation Classes */
+
+.pulse {
+  @apply animate-pulse;
+}
+
+.shake {
+  @apply animate-shake;
+}
+
+.spin {
+  @apply animate-spin;
+}
+
+.fade {
+  @apply animate-fade;
+}
+
+.slide-in {
+  @apply animate-slide-in;
+}
+
+.pop-up {
+  @apply animate-pop-up;
+}
+
+.hover-float {
+  @apply transition-transform hover:-translate-y-2;
+}
+
+.button-click {
+  @apply transition-transform active:scale-95;
+}
+
+.shimmer {
+  @apply animate-shimmer;
+  background: linear-gradient(90deg, 
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.8) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  background-size: 200% 100%;
+}
+
+.notification {
+  @apply animate-notification;
+  transform-origin: top;
+}
+
+.skeleton {
+  @apply animate-skeleton;
+  background: linear-gradient(90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+}
+
+.heartbeat {
+  @apply animate-heartbeat;
+}
