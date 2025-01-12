@@ -46,6 +46,7 @@ const AnimationGrid = () => {
         {filteredAnimations.map((animation) => (
           <AnimationCard
             key={animation.title}
+            category={selectedCategory.toLowerCase()}
             title={animation.title}
             cssClass={animation.cssClass}
             cssCode={animation.cssCode}

@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
 import { motion } from 'framer-motion';
 
-const AnimationCard = ({ title, cssClass, cssCode, onShowCode }) => {
+const AnimationCard = ({ title, category, cssClass, cssCode, onShowCode }) => {
   const [hovered, setHovered] = useState(false);
   return (
     <div
-      className="flex justify-center items-center h-32 bg-purple-300 rounded-md mb-4 group"
+      className="flex flex-col items-center justify-center h-32 bg-purple-300 rounded-md mb-4 group"
       onClick={() => onShowCode(title, cssCode)}
     >
       {/* Only the title is animated */}
       <motion.h3
-         className={`text-lg font-semibold cursor-pointer text-blue-500 ${
+         className={`text-lg font-semibold cursor-pointer block text-blue-500 ${
           hovered ? cssClass : ''
         }`}
         whileHover={{ 
@@ -20,8 +20,13 @@ const AnimationCard = ({ title, cssClass, cssCode, onShowCode }) => {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        {title}
+         {category !== 'advanced' ? (
+    title
+  ) : (
+    <div className="w-16 h-16 bg-pink-300 rounded-md "></div>
+  )}
       </motion.h3>
+      {category === 'advanced' && <p>{title}</p>}
     </div>
   );
 };
