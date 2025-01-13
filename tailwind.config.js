@@ -11,7 +11,6 @@ module.exports = {
         'bounce': 'bounce 1s infinite',
         'hover-border': 'hoverBorder 1s infinite',
         'hover-float': 'hoverFloat 1s infinite',
-        'hover-shadow-grow': 'hoverShadowGrow 1s infinite',
         'hover-border': 'hoverBorder 1s infinite',
         'pulse': 'pulse 2s infinite',
         'shake': 'shake 0.5s infinite',

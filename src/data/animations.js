@@ -116,22 +116,6 @@ export const animations = {
 }`
     },
     {
-      title: 'Hover Shadow Grow',
-      cssClass: 'hover-shadow-grow',
-      cssCode: `<!-- HTML -->
-<div class="hover-shadow-grow">
-  <div class="w-16 h-16 bg-blue-500 rounded-md"></div>
-</div>
-
-<!-- CSS -->
-.hover-shadow-grow {
-  transition: box-shadow 0.3s ease;
-}
-.hover-shadow-grow:hover {
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-}`
-    },
-    {
       title: 'Hover Border',
       cssClass: 'hover-border',
       cssCode: `<!-- HTML -->
@@ -310,6 +294,165 @@ export const animations = {
   display: inline-block;
   animation: spinner 1s linear infinite;
 }`
+    },
+    
+    {
+      title: 'Expanding Ripple',
+      cssClass: 'expanding-ripple',
+      cssCode: `<!-- HTML -->
+  <div class="expanding-ripple"></div>
+  
+  <!-- CSS -->
+  .expanding-ripple {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background: transparent;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  
+  .expanding-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(0, 255, 255, 0.5);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: expandingRipple 1.5s ease-out infinite;
+  }
+  
+  @keyframes expandingRipple {
+    0% {
+      width: 0;
+      height: 0;
+      opacity: 1;
+    }
+    100% {
+      width: 200%;
+      height: 200%;
+      opacity: 0;
+    }
+  }`
+    },
+    {
+      title: 'Dual Ripple',
+      cssClass: 'dual-ripple',
+      cssCode: `<!-- HTML -->
+  <div class="dual-ripple"></div>
+  
+  <!-- CSS -->
+  .dual-ripple {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background: transparent;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  
+  .dual-ripple::before,
+  .dual-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 0, 150, 0.4);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: dualRipple 1.5s ease-out infinite;
+  }
+  
+  .dual-ripple::after {
+    animation-delay: 0.75s;
+  }
+  
+  @keyframes dualRipple {
+    0% {
+      width: 0;
+      height: 0;
+      opacity: 1;
+    }
+    100% {
+      width: 200%;
+      height: 200%;
+      opacity: 0;
+    }
+  }`
+    },
+    {
+      title: 'Pulsing Ripple',
+      cssClass: 'pulsing-ripple',
+      cssCode: `<!-- HTML -->
+  <div class="pulsing-ripple"></div>
+  
+  <!-- CSS -->
+  .pulsing-ripple {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background: rgba(0, 123, 255, 0.3);
+    border-radius: 50%;
+    animation: pulsingRipple 1.5s infinite alternate;
+  }
+  
+  @keyframes pulsingRipple {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.5);
+      opacity: 0.6;
+    }
+  }`
+    },
+    {
+      title: 'Color Changing Ripple',
+      cssClass: 'color-changing-ripple',
+      cssCode: `<!-- HTML -->
+  <div class="color-changing-ripple"></div>
+  
+  <!-- CSS -->
+  .color-changing-ripple {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: transparent;
+    overflow: hidden;
+  }
+  
+  .color-changing-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ff6b6b, #ffcc00, #1dd1a1);
+    transform: translate(-50%, -50%);
+    animation: colorChangingRipple 2s infinite;
+  }
+  
+  @keyframes colorChangingRipple {
+    0% {
+      width: 0;
+      height: 0;
+      opacity: 1;
+    }
+    100% {
+      width: 300%;
+      height: 300%;
+      opacity: 0;
+    }
+  }`
     },
     {
       title: 'Shimmer',
@@ -929,50 +1072,6 @@ export const animations = {
       animation: morph 2s infinite;
     }`
     },
-{
-  title: '3D Flip Card',
-  cssClass: 'flip-card',
-  cssCode: `<!-- HTML -->
-<div class="flip-card">
-  <div class="flip-card-inner">
-    <div class="flip-card-front bg-blue-500 text-white">
-      Front
-    </div>
-    <div class="flip-card-back bg-green-500 text-white">
-      Back
-    </div>
-  </div>
-</div>
-
-<!-- CSS -->
-.flip-card {
-  width: 150px;
-  height: 100px;
-  perspective: 1000px;
-}
-.flip-card-inner {
-  width: 100%;
-  height: 100%;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-}
-.flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
-}
-.flip-card-front, .flip-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.2rem;
-}
-.flip-card-back {
-  transform: rotateY(180deg);
-}`
-},
     {
       title: 'Pulse Heart',
       cssClass: 'heart-pulse',

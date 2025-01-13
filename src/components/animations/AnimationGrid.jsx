@@ -1,67 +1,110 @@
-// AnimationGrid.jsx
-import React, { useState } from 'react';
-import AnimationCard from './AnimationCard'; // Import the AnimationCard component
-import Modal from '../Modal/Modal'; // Import the Modal component
-import CodeBlock from '../CodeBlock/CodeBlock'; // Import the CodeBlock component
-import { animations } from '../../data/animations'; // Import the animations data
-import Filter from '../common/Filter'; // Import the Filter component
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import AnimationCard from './AnimationCard';
+import Modal from '../Modal/Modal';
+import Filter from '../common/Filter';
+import { loadAnimations } from '../../data/animations/index';
+
+const CodeBlock = React.lazy(() => import('../codeblock/CodeBlock'));
 
 const AnimationGrid = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedAnimation, setSelectedAnimation] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  
-  // Define categories (this should match the categories in the animations data)
+  const [selectedCategory, setSelectedCategory] = useState('All'); // Default is "All"
+  const [filteredAnimations, setFilteredAnimations] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const categories = ['All', 'Hover', 'Loaders', 'Text', 'Transitions', 'Advanced'];
 
-  // Handle card click: open modal with the selected animation's code
+  // Function to load animations
+  const fetchAnimations = async (category) => {
+    try {
+      if (category === 'All') {
+        const allCategories = await Promise.all(
+          categories
+            .filter((cat) => cat !== 'All') // Exclude "All" from dynamic imports
+            .map((cat) => loadAnimations(cat.toLowerCase()))
+        );
+        return allCategories.flat(); // Combine all animations
+      } else {
+        const animations = await loadAnimations(category.toLowerCase());
+        return animations;
+      }
+    } catch (error) {
+      console.error(`Error loading animations for category "${category}":`, error);
+      return []; // Return an empty array on error
+    }
+  };
+
+  // Load animations on category change
+  useEffect(() => {
+    const loadFilteredAnimations = async () => {
+      setIsLoading(true); // Show loading indicator
+      const animations = await fetchAnimations(selectedCategory);
+      setFilteredAnimations(animations || []); // Ensure it's an array
+      setIsLoading(false); // Hide loading indicator
+    };
+
+    loadFilteredAnimations();
+  }, [selectedCategory]);
+
   const handleCardClick = (title, code) => {
     setSelectedAnimation({ title, code });
     setModalOpen(true);
   };
 
-  // Close the modal
   const handleCloseModal = () => {
     setModalOpen(false);
-    setSelectedAnimation(null); // Reset selected animation when closing modal
+    setSelectedAnimation(null);
   };
-
-  // Filter animations based on the selected category
-  const filteredAnimations = selectedCategory === 'All'
-  ? Object.values(animations).flat()  // Flatten all categories if "All" is selected
-  : selectedCategory
-  ? animations[selectedCategory.toLowerCase()].map((animation) => ({
-      ...animation,
-      category: selectedCategory,
-    }))  // Handle category-specific filtering
-  : [];
 
   return (
     <div>
-      {/* Filter Animations */}
+      {/* Filter Component */}
       <Filter categories={categories} onFilterChange={setSelectedCategory} />
 
-      {/* Display Animation Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredAnimations.map((animation) => (
-          <AnimationCard
-            key={animation.title}
-            category={selectedCategory.toLowerCase()}
-            title={animation.title}
-            cssClass={animation.cssClass}
-            cssCode={animation.cssCode}
-            onShowCode={handleCardClick} // Pass the handleCardClick function to open modal on click
-          />
-        ))}
-      </div>
+      {/* Loading State */}
+      {isLoading ? (
+        <div>Loading animations...</div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredAnimations.map((animation, index) => (
+            animation && ( // Ensure animation object exists
+              <motion.div
+                key={animation.title}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{
+                  duration: 0.5,
+                  ease: 'easeOut',
+                  delay: index * 0.05, // Optional stagger effect
+                }}
+              >
+                <AnimationCard
+                  title={animation.title}
+                  cssClass={animation.cssClass}
+                  cssCode={animation.cssCode}
+                  onShowCode={handleCardClick}
+                />
+              </motion.div>
+            )
+          ))}
+        </div>
+      )}
 
-      {/* Modal for displaying code */}
-      <Modal isOpen={modalOpen} onClose={handleCloseModal}>
-        {/* Render CodeBlock inside the modal */}
-        {selectedAnimation && (
-          <CodeBlock code={selectedAnimation.code} language="css" className="mt-4" />
-        )}
-      </Modal>
+      {/* Modal for CodeBlock */}
+      {modalOpen && (
+        <React.Suspense fallback={<div>Loading...</div>}>
+          <Modal isOpen={modalOpen} onClose={handleCloseModal}>
+            {selectedAnimation && (
+              <React.Suspense fallback={<div>Loading code...</div>}>
+                <CodeBlock code={selectedAnimation.code} language="css" className="mt-4" />
+              </React.Suspense>
+            )}
+          </Modal>
+        </React.Suspense>
+      )}
     </div>
   );
 };

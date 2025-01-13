@@ -10,7 +10,7 @@ const AnimationCard = ({ title, category, cssClass, cssCode, onShowCode }) => {
     >
       {/* Only the title is animated */}
       <motion.h3
-         className={`text-lg font-semibold cursor-pointer block text-blue-500 ${
+         className={`text-lg font-semibold cursor-pointer block text-blue-700 ${
           hovered ? cssClass : ''
         }`}
         whileHover={{ 

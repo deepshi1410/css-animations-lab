@@ -16,3 +16,13 @@
     @apply overflow-hidden;
   }
 }
+
+@layer components {
+  .btn-hover {
+    @apply transition-transform hover:scale-105 active:scale-95;
+  }
+
+  .animation-card {
+    @apply bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow;
+  }
+}
