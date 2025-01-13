@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import AnimationCard from './AnimationCard';
-import Modal from '../Modal/Modal';
+import Modal from '../common/Modal';
 import Filter from '../common/Filter';
 import { loadAnimations } from '../../data/animations/index';
 
